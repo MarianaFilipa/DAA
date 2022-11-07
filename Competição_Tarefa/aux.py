@@ -7,7 +7,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.model_selection import train_test_split
+
+from sklearn.model_selection import train_test_split, GridSearchCV, RepeatedKFold, cross_val_score
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, plot_confusion_matrix,ConfusionMatrixDisplay
 
@@ -16,6 +17,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 
 from sklearn.metrics import classification_report, plot_confusion_matrix
+
+from sklearn.ensemble import RandomForestClassifier
 
 
 
@@ -102,11 +105,23 @@ def Split_Training_Test_Set(df):
     return X_train, X_test, y_train, y_test
 
 
-def getModel(X_train, y_train):
-    modelTree = DecisionTreeClassifier().fit(X_train, y_train)
+def getModel(modelType):
+    if (modelType == "DecisionTree"):
+        model = DecisionTreeClassifier(criterion = 'entropy', splitter = 'best', max_depth = 10)
+    elif(modelType == "RandomForest"):
+        model = RandomForestClassifier(criterion = 'entropy', n_estimators = 125)
+    else:
+        model = DecisionTreeClassifier(criterion = 'entropy', splitter = 'best')
+    return model
 
-    return modelTree
 
+def gridSearch(model, params):
+
+    cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=1)
+    grid = GridSearchCV(model,params,scoring='neg_mean_squared_error',n_jobs=-1, cv=cv)
+    
+    return grid
+    
 
 
 if __name__ == "__main__":
@@ -120,20 +135,45 @@ if __name__ == "__main__":
     
     dataVisualization(df)
 
-    #X_train, X_test, y_train, y_test = Split_Training_Test_Set(df)
+    X_train, X_test, y_train, y_test = Split_Training_Test_Set(df)
+    
+    #X = df.drop(['incidents'], axis = 1)
+    #y = df['incidents']
 
-    #modelTree = getModel(X_train, y_train)
-    #y_pred_tree = modelTree.predict(X_test)
+    #Decision Tree Model
+    #model = getModel("RandomForest")
+
+
+    #model = model.fit(X_train, y_train)
+    #y_pred_tree = model.predict(X_test)
     # Classification_report
     #print(classification_report(y_test,y_pred_tree))
 
+    #scores = cross_val_score(model, X, y, cv=10)
+    #print(scores.mean())
+
+    #Decision Tree:
+    # log_loss deu asneira
+    #params = {'criterion': ['gini', 'entropy'], 'splitter': ['best', 'random'], 'max_depth': [5,10,15]}    
+    #grid = gridSearch(model, params)
+    #grid = grid.fit(X, y)
+    #print(grid.best_params_)
+
+    #Random Forest Classifier:
+    # log_loss deu asneira
+    #params = {'criterion': ['entropy'], 'max_depth': [13,15,18], 'n_estimators': [120, 125, 130]}    
+    #grid = gridSearch(model, params)
+    #grid = grid.fit(X,y)
+    #print(grid.best_params_)
 
 
 
+    
     ## TESTE
     X = df.drop(['incidents'], axis = 1)
     y = df['incidents']
-    modelTree = getModel(X, y)
+    modelTree = getModel("RandomForest")
+    modelTree = modelTree.fit(X, y)
 
 
     df_test = pd.read_csv("sbstpdaa2223/test_data.csv")
@@ -144,8 +184,6 @@ if __name__ == "__main__":
     #print(classification_report(y_test,y_pred_tree))
 
 
-
-
     pred = pd.DataFrame()
     print(dictReplaceIncidents)
 
@@ -153,4 +191,5 @@ if __name__ == "__main__":
     pred['RowId'] = range(1, len(y_pred_tree)+1)
     pred['Incidents'] = y_pred_tree
     pred.replace(dictReplaceIncidents, inplace=True)
-    pred.to_csv('Group16_Try1.csv', index = False)  
+    pred.to_csv('Group16_Try2.csv', index = False)  
+    
