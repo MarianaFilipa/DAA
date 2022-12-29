@@ -2,6 +2,7 @@ Try 3: \
 * Preprocessing:\
         - encoding_categorical_data(df)\
         - drop_columns_zero_std(df)\
+        - drop_missing\
         - df = count_all_roads_per_line(df)\
 * Model:\
         -RandomForest: criterion='entropy', n_estimators=125, max_depth=18, max_features='log2'\
@@ -28,6 +29,7 @@ Try 4:
 * Preprocessing:\
         - encoding_categorical_data(df)\
         - drop_columns_zero_std(df)\
+        - drop_missing\
         - df = count_all_roads_per_line(df)\
         - df = balancedData(df)\ (não aplicado no test data)
 * Model:\
@@ -84,6 +86,7 @@ Try 5:
 * Preprocessing:\
         - encoding_categorical_data(df)\
         - drop_columns_zero_std(df)\
+        - drop_missing\
         - df = count_all_roads_per_line(df)\
         - df = balancedData(df)\ (não aplicado no test data)
         - df = replaceOutliers\ (não aplicado no test data)
@@ -107,10 +110,11 @@ weighted avg       0.97      0.97      0.97      3027
     
 
 
-Try 5:
+Try 6:
 * Preprocessing:\
         - encoding_categorical_data(df)\
         - drop_columns_zero_std(df)\
+        - drop_missing
         - df = count_all_roads_per_line(df)\
         - df = balancedData(df)\ (não aplicado no test data)
         - df = replaceOutliers\
@@ -140,3 +144,74 @@ Para tratar os outliers tentamos usar replacement pelos quartis mais próximos, 
 
 Podemos tentar justificar isto com: podem haver circunstâncias climatéricas anormais que fazem com que o número de acidentes aumente. Tirar estes outliers pode fazer com que se percam dados relevantes sobre o ambiente do sistema.
 
+
+
+* Teste: 
+- encoding_categorical_data(df)\
+- drop_columns_zero_std(df)\
+- replace_missing_affected_roads(df)
+- df = count_different_roads_per_line(df)
+
+```
+ precision    recall  f1-score   support
+
+           1       0.87      0.90      0.88       313
+           2       0.86      0.86      0.86       201
+           3       0.90      0.79      0.84       175
+           4       0.97      0.98      0.98       632
+           5       0.90      0.94      0.92       179
+
+    accuracy                           0.92      1500
+   macro avg       0.90      0.89      0.90      1500
+weighted avg       0.92      0.92      0.92      1500
+```
+
+
+* Teste:
+- encoding_categorical_data(df)\
+- drop_columns_zero_std(df)\
+- replace_missing_affected_roads(df)
+- df = count_all_roads_per_line(df)
+- drop_magnitude_of_delay(df)\
+- drop_columns_zero_std(df)\
+
+```
+precision    recall  f1-score   support
+
+           1       0.91      0.90      0.91       313
+           2       0.86      0.89      0.88       201
+           3       0.89      0.82      0.85       175
+           4       0.98      0.99      0.99       632
+           5       0.92      0.92      0.92       179
+
+    accuracy                           0.93      1500
+   macro avg       0.91      0.90      0.91      1500
+weighted avg       0.93      0.93      0.93      1500
+```
+
+
+Try 7:
+* Preprocessing:\
+        - encoding_categorical_data(df)\
+        - drop_columns_zero_std(df)\
+        - replace_missing
+        - df = count_all_roads_per_line(df)\
+        - df.drop('magnitude_of_delay')
+* Model:\
+        -RandomForest: criterion='entropy', n_estimators=125, max_depth=18, max_features='log2', class_weight="balanced_subsample"\
+* Results:
+```
+             precision    recall  f1-score   support
+
+           1       0.90      0.91      0.90       313
+           2       0.85      0.89      0.87       201
+           3       0.89      0.79      0.84       175
+           4       0.98      0.99      0.99       632
+           5       0.93      0.92      0.92       179
+
+    accuracy                           0.93      1500
+   macro avg       0.91      0.90      0.90      1500
+weighted avg       0.93      0.93      0.93      1500
+```
+* Kaggle Accuracy: 0.936
+        **Não deve ter muito overfitting**
