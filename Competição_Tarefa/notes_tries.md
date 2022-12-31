@@ -215,3 +215,31 @@ weighted avg       0.93      0.93      0.93      1500
 ```
 * Kaggle Accuracy: 0.936
         **Não deve ter muito overfitting**
+        
+Try 8:
+* Preprocessing:\
+        - encoding_categorical_data(df)\
+        - drop_columns_zero_std(df)\
+        - replace_missing
+        - df = count_all_roads_per_line(df)\
+        - df.drop('magnitude_of_delay')
+        - SMOTE 
+* Model:\
+        -RandomForest: criterion='entropy', n_estimators=120, max_depth=18, max_features='log2'\
+* Results:
+```
+             precision    recall  f1-score   support
+
+           1       0.92      0.87      0.90       313
+           2       0.83      0.90      0.86       201
+           3       0.85      0.83      0.84       175
+           4       0.98      0.98      0.98       632
+           5       0.90      0.92      0.91       179
+
+    accuracy                           0.92      1500
+   macro avg       0.90      0.90      0.90      1500
+weighted avg       0.92      0.92      0.92      1500
+```
+* Kaggle Accuracy: 0.93351
+        **Não tem overfitting, i guess**
+  
