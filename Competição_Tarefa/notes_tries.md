@@ -243,3 +243,54 @@ weighted avg       0.92      0.92      0.92      1500
 * Kaggle Accuracy: 0.93351
         **Não tem overfitting, i guess**
   
+Try 9:
+* Preprocessing:\
+        - encoding_categorical_data(df)\
+        - drop_columns_zero_std(df)\
+        - replace_missing
+        - df = count_all_roads_per_line(df)\
+        - df.drop('magnitude_of_delay')
+* Model:\
+        -GradientBoostingClassifier(criterion= 'friedman_mse', learning_rate= 0.2, loss= 'log_loss', n_estimators= 110)\
+* Results:
+```
+              precision    recall  f1-score   support
+
+           1       0.89      0.89      0.89       313
+           2       0.86      0.89      0.87       201
+           3       0.89      0.79      0.84       175
+           4       0.98      1.00      0.99       632
+           5       0.90      0.91      0.90       179
+
+    accuracy                           0.92      1500
+   macro avg       0.90      0.89      0.90      1500
+weighted avg       0.92      0.92      0.92      1500
+```
+* Kaggle Accuracy: 0.92797
+  
+  
+Try 10:
+* Preprocessing:\
+        - encoding_categorical_data(df)\
+        - drop_columns_zero_std(df)\
+        - replace_missing
+        - df = count_all_roads_per_line(df)\
+        - df.drop('magnitude_of_delay')
+* Model:\
+        -CatBoostClassifier()\
+* Results:
+```
+             precision    recall  f1-score   support
+
+           1       0.89      0.90      0.89       313
+           2       0.87      0.89      0.88       201
+           3       0.89      0.81      0.84       175
+           4       0.98      0.99      0.99       632
+           5       0.91      0.90      0.90       179
+
+    accuracy                           0.93      1500
+   macro avg       0.91      0.90      0.90      1500
+weighted avg       0.93      0.93      0.93      1500
+```
+* Kaggle Accuracy: 0.93905
+  
