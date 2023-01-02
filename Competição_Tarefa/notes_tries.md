@@ -294,3 +294,230 @@ weighted avg       0.93      0.93      0.93      1500
 ```
 * Kaggle Accuracy: 0.93905
   
+  
+* SVC: C=3; kernel = linear: accuracy = 0.69
+* SVC: C=3; kernel = poly: accuracy = 0.69
+* SVC: C=3; kernel = rbf: accuracy = 0.74
+* SVC: C=5; kernel = rbf: accuracy = 0.75
+* SVC: C=9; kernel = rbf: accuracy = 0.79
+* SVC: C=19; kernel = rbf: accuracy = 0.82
+
+
+1. Para a função GradientBoostingClassifiers: Acc 93%
+ * Replacing missing values: better
+ * melhores encodings: df = encode_affected_roads(df)
+                        df = count_all_roads_per_line(df)
+     * Uma delas
+ * X_train, X_test, y_train, y_test = Split_Training_Test_Set(df)
+ * X_train, X_test, y_train, y_test = scale_data(df)
+ * X_train, y_train, X_test, y_test = apply_smote(df)
+     * igual impacto
+    
+ (drop avg rain, record_date_hour : 'learning_rate': 0.45, 'n_estimators': 210)    
+    
+2. LogisticRegression: 
+    * Seems to work better with scaled_data(df)
+ * melhores encodings: Em conjunto:
+    * df = encode_affected_roads(df) # best
+    * df = count_all_roads_per_line(df) # best
+    
+    
+
+Try 12:
+* Preprocessing:\
+        - holiday_or_busy_day(df)\
+        - encoding_categorical_data(df)\
+        - drop_columns_zero_std(df)\
+        - binning_days(df)\
+        - replace_missing\
+        - df = count_all_roads_per_line(df)\
+* Model:\
+        - GradientBoostingClassifier(learning_rate= 0.35, n_estimators= 180, random_state = 2001)\
+* Results:
+```
+             precision    recall  f1-score   support
+
+           1       0.90      0.91      0.90       313
+           2       0.89      0.91      0.90       201
+           3       0.90      0.81      0.85       175
+           4       0.98      1.00      0.99       632
+           5       0.91      0.91      0.91       179
+
+    accuracy                           0.93      1500
+   macro avg       0.92      0.91      0.91      1500
+weighted avg       0.93      0.93      0.93      1500
+```
+* Kaggle Accuracy: 0.9224
+
+
+Try 13:
+* Preprocessing:\
+        - holiday_or_busy_day(df)\
+        - encoding_categorical_data(df)\
+        - drop_columns_zero_std(df)\
+        - binning_days(df)\
+        - replace_missing\
+        - df = count_all_roads_per_line(df)\
+        - df = balancedData(df)\
+* Model:\
+        - BaggingClassifier(n_estimators=175)\
+* Results:
+```
+             precision    recall  f1-score   support
+
+           1       0.89      0.90      0.89       313
+           2       0.87      0.89      0.88       201
+           3       0.89      0.81      0.84       175
+           4       0.98      0.99      0.99       632
+           5       0.91      0.90      0.90       179
+
+    accuracy                           0.93      1500
+   macro avg       0.91      0.90      0.90      1500
+weighted avg       0.93      0.93      0.93      1500
+```
+* Kaggle Accuracy: 0.94459
+
+
+
+
+
+
+
+*  Calibrar **Random Forest**: 
+holiday_or_busy_day(df)
+encoding_categorical_data(df)
+encoding_incidents(df)
+drop_columns_zero_std(df)
+binning_days(df)
+df.drop('avg_rain', axis = 1, inplace = True)
+replace_missing_affected_roads(df)    
+df = count_all_roads_per_line(df)
+{'criterion': 'gini', 'max_features': 'sqrt', 'n_estimators': 200, 'n_jobs': 2, 'random_state': 2001} : 0.9288666666666667
+
+holiday_or_busy_day(df)
+encoding_categorical_data(df)
+encoding_incidents(df)
+drop_columns_zero_std(df)
+binning_days(df)
+df.drop('avg_rain', axis = 1, inplace = True)
+replace_missing_affected_roads(df)    
+df = count_all_roads_per_line(df)
+{'criterion': 'entropy', 'max_features': 'sqrt', 'n_estimators': 150, 'n_jobs': 2, 'random_state': 2001} : 0.9286
+
+encoding_categorical_data(df)
+encoding_incidents(df)
+drop_columns_zero_std(df)
+binning_days(df)
+replace_missing_affected_roads(df)    
+df = count_all_roads_per_line(df)
+{'criterion': 'entropy', 'max_features': 'sqrt', 'n_estimators': 150, 'n_jobs': 2, 'random_state': 2001} : 0.9296666666666665
+
+```
+encoding_categorical_data(df)
+encoding_incidents(df)
+drop_columns_zero_std(df)
+binning_days(df)
+df.drop('avg_wind_speed', axis = 1, inplace = True)
+replace_missing_affected_roads(df)    
+df = count_all_roads_per_line(df)
+{'criterion': 'entropy', 'max_features': 'sqrt', 'n_estimators': 140, 'n_jobs': 2, 'random_state': 2001}: 0.9330666666666665
+```
+
+Try 14:
+* Preprocessing:\
+        - encoding_categorical_data(df)\
+        - drop_columns_zero_std(df)\
+        - binning_days(df)\
+        - df.drop('avg_wind_speed', axis = 1, inplace = True)\
+        - replace_missing\
+        - df = count_all_roads_per_line(df)\
+        - df = balancedData(df)\
+* Model:\
+        - model = getModel("RandomForest")\
+        - params = {'criterion': ['entropy'], 'n_estimators': [140], 'max_features': ['sqrt'], 'random_state':[2001], 'n_jobs': [2]}\
+        - Com grid search predict
+    
+* Results:
+```
+             precision    recall  f1-score   support
+
+           1       0.92      0.88      0.90       313
+           2       0.86      0.91      0.88       201
+           3       0.89      0.82      0.85       175
+           4       0.98      0.98      0.98       632
+           5       0.88      0.95      0.91       179
+
+    accuracy                           0.93      1500
+   macro avg       0.90      0.91      0.91      1500
+weighted avg       0.93      0.93      0.93      1500
+```
+* Grid Search: 0.9330666666666665
+* Kaggle Accuracy: 0.93351
+
+
+
+
+*  Calibrar **Balanced Random Forest**: 
+
+encoding_categorical_data(df)
+encoding_incidents(df)
+drop_columns_zero_std(df)
+binning_days(df)
+df.drop('avg_wind_speed', axis = 1, inplace = True)
+replace_missing_affected_roads(df)    
+df = count_all_roads_per_line(df) (Não funciona tão bem com count_different_roads)
+{'criterion': 'entropy', 'max_features': 'sqrt', 'n_estimators': 100, 'n_jobs': 2, 'random_state': 2001} : 0.9187333333333334
+
+
+holiday_or_busy_day(df)
+encoding_categorical_data(df)
+encoding_incidents(df)
+drop_columns_zero_std(df)
+replace_missing_affected_roads(df)  
+df = count_all_roads_per_line(df)
+{'class_weight': 'balanced_subsample', 'criterion': 'entropy', 'max_features': 'sqrt', 'n_estimators': 100, 'n_jobs': 2, 'random_state': 2001} : 0.9163333333333333
+
+
+encoding_categorical_data(df)
+encoding_incidents(df)
+drop_columns_zero_std(df)
+binning_days(df)
+df.drop('avg_wind_speed', axis = 1, inplace = True)
+replace_missing_affected_roads(df)    
+df = count_all_roads_per_line(df) (Não funciona tão bem com count_different_roads)
+{'class_weight': 'balanced_subsample', 'criterion': 'entropy', 'max_features': 'sqrt', 'n_estimators': 100, 'n_jobs': 2, 'random_state': 2001}: 0.9192
+
+
+
+Try 15:
+* Preprocessing:\
+        - encoding_categorical_data(df)\
+        - drop_columns_zero_std(df)\
+        - binning_days(df)\
+        - df.drop('avg_wind_speed', axis = 1, inplace = True)\
+        - replace_missing\
+        - df = count_all_roads_per_line(df)\
+        - df = balancedData(df)\
+* Model:\
+        - model = getModel("BalRandomForest")\
+        params = {'criterion': ['entropy'], 'n_estimators': [100], 'max_features': ['sqrt'], 'random_state':[2001], 'n_jobs': [2], 'class_weight': ['balanced_subsample']}\
+        - Com grid search predict
+    
+* Results:
+```
+             precision    recall  f1-score   support
+
+           1       0.90      0.88      0.89       313
+           2       0.84      0.90      0.87       201
+           3       0.89      0.79      0.84       175
+           4       0.98      0.98      0.98       632
+           5       0.88      0.92      0.90       179
+
+    accuracy                           0.92      1500
+   macro avg       0.90      0.90      0.90      1500
+weighted avg       0.92      0.92      0.92      1500
+```
+* Grid Search: 0.9192
+* Kaggle Accuracy: 0.92797
+
+    **É esperado que a accuracy que tivemos na competição deixa com esta tentativa**
