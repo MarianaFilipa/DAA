@@ -521,3 +521,48 @@ weighted avg       0.92      0.92      0.92      1500
 * Kaggle Accuracy: 0.92797
 
     **É esperado que a accuracy que tivemos na competição deixa com esta tentativa**
+    
+Try 19:
+* Preprocessing:\
+            
+            - encoding_categorical_data(df)
+            - encoding_incidents(df)
+            -drop_columns_zero_std(df)
+    
+            - binning_days(df)
+ 
+            - df.drop('avg_wind_speed', axis = 1, inplace = True) 
+            
+            - replace_missing_affected_roads(df)
+    
+            - df = count_all_roads_per_line(df) # best
+
+            -  df = df.drop(df.columns[[0,3,4,7,12,13,14,15,16,17]],axis = 1)
+                -> Index(['delay_in_seconds', 'affected_roads', 'avg_atm_pressure',
+                   'avg_humidity', 'incidents', 'record_date_month',
+                   record_date_day','record_date_hour', 'night'], dtype='object')  
+
+* Model:\
+        - model = {'criterion': 'entropy', 'max_features': None, 'n_estimators': 125, 'n_jobs': 2, 'random_state': 2001}
+        \
+        \
+        - Com grid search predict firstly, e after sem grid
+    
+* Results:
+```
+precision    recall  f1-score   support
+
+           1       0.91      0.90      0.90       313
+           2       0.90      0.88      0.89       201
+           3       0.86      0.82      0.84       175
+           4       0.98      1.00      0.99       632
+           5       0.91      0.92      0.91       179
+
+    accuracy                           0.93      1500
+   macro avg       0.91      0.90      0.91      1500
+weighted avg       0.93      0.93      0.93      1500
+```
+* Grid Search: 0.938599
+* Kaggle Accuracy: 0.90858
+
+    **É esperado que a accuracy que tivemos na competição deixa com esta tentativa**
