@@ -1,0 +1,78 @@
+## RIDGE
+
+parameters = {'solver': ['svd', 'cholesky', 'lsqr', 'sag'],'alpha': [0.5, 0.3, 0.7], 'max_iter': [20000, 17000, 23000]}
+The best estimator across ALL searched params:
+ Ridge(alpha=0.3, max_iter=20000, solver='cholesky')
+
+ The best score across ALL searched params:
+ -7.574977325350776e-10
+
+ The best parameters across ALL searched params:
+ {'alpha': 0.3, 'max_iter': 20000, 'solver': 'cholesky'}
+ 
+************************************************************************************************  
+ 
+## LINEAR
+
+parameters = { 'fit_intercept':[True, False], 'copy_X': [True,False],'n_jobs': [None,-1]}   
+  The best estimator across ALL searched params:
+ LinearRegression()
+
+ The best score across ALL searched params:
+ -8.35450640898794e-29
+
+ The best parameters across ALL searched params:
+ {'copy_X': True, 'fit_intercept': True, 'n_jobs': None}
+ 
+************************************************************************************************  
+ 
+## SVR
+ 
+ parameters = { 'kernel': ['linear','rbf','sigmoid'],'gamma': ['scale', 'auto'],'coef0': [0.0],'tol': [1e-3],'C': [1.0],'epsilon': [0.1],'shrinking': [True, False],'cache_size':[200],'verbose': [True, False],'max_iter': [-1]}
+ 
+  Results from Grid Search 
+
+ The best estimator across ALL searched params:
+ 
+optimization finished, #iter = 7
+obj = -0.495947, rho = -0.260275
+nSV = 4, nBSV = 0
+SVR(kernel='linear', verbose=True)
+
+ The best score across ALL searched params:
+ -0.0018180986779642262
+
+ The best parameters across ALL searched params:
+ {'C': 1.0, 'cache_size': 200, 'coef0': 0.0, 'epsilon': 0.1, 'gamma': 'scale', 'kernel': 'linear', 'shrinking': True, 'tol': 0.001, 'verbose': True}
+ 
+ 
+************************************************************************************************ 
+
+## SGD
+
+ Results from Grid Search 
+
+ The best estimator across ALL searched params:
+ SGDRegressor(alpha=0.3, loss='epsilon_insensitive', max_iter=2000, penalty=None)
+
+ The best score across ALL searched params:
+ -0.0012466059788102525
+
+ The best parameters across ALL searched params:
+ {'alpha': 0.3, 'loss': 'epsilon_insensitive', 'max_iter': 2000, 'penalty': None}
+
+************************************************************************************************  
+ 
+## LASSO    - mais vale usar linear
+
+ Results from Grid Search 
+
+ The best estimator across ALL searched params:
+ Lasso(alpha=0.001, fit_intercept=False, max_iter=4000, precompute=True,
+      warm_start=True)
+
+ The best score across ALL searched params:
+ -2.0482401237161207e-10
+
+ The best parameters across ALL searched params:
+ {'alpha': 0.001, 'copy_X': True, 'fit_intercept': False, 'max_iter': 4000, 'positive': False, 'precompute': True, 'selection': 'cyclic', 'warm_start': True}
